@@ -11,15 +11,11 @@ import org.springframework.security.web.SecurityFilterChain;
 public class FilterChainConfig
 {
 
-    @Autowired
-    AuthentificationProviderCustom authentificationProviderCustom;
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {
         http.httpBasic(Customizer.withDefaults());
-        http.authenticationProvider(authentificationProviderCustom);
         http.authorizeHttpRequests(r -> r.anyRequest().authenticated());
 
         return http.build();

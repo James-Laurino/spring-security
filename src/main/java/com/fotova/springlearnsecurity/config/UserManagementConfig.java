@@ -5,26 +5,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class UserManagementConfig
 {
     @Bean
-    public UserDetailsService userDetailsService()
+    public UserDetailsService userDetailsService(DataSource dataSource)
     {
-        var user1 = User.builder()
-                .username("james")
-                .password("{noop}1234")
-                .authorities("write")
-                .build();
-
-        var user2 = User.builder()
-                .username("thomas")
-                .password("{noop}1234")
-                .authorities("read")
-                .build();
-
-        return new InMemoryUserDetailsManager(user1,user2);
-
+        return new JdbcUserDetailsManager(dataSource);
     }
 }
